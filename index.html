@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+        <div class="wrapper">
+      <header>
+        <h1>Password Generator</h1>
+      </header>
+      <div class="card">
+        <div class="card-header">
+          <h2>Click The Button to Generate a Password</h2>
+        </div>
+        <div class="card-body">
+          <textarea
+            readonly
+            id="password"
+            placeholder="Your Secure Password"
+            aria-label="Generated Password"
+          ></textarea>
+        </div>
+        <div class="card-footer">
+          <button id="generate" class="btn">Generate Password</button>
+        </div>
+      </div>
+    </div>
+  
+    <script src="script.js"></script>
+             <script>
+               
+
+        // Creating Array special characters
+  var specialcharacters = [
+  '@',
+  '%',
+  '+',
+  '\\',
+  '/',
+  "'",
+  '!',
+  '#',
+  '$',
+  '^',
+  '?',
+  ':',
+  ',',
+  ')',
+  '(',
+  '}',
+  '{',
+  ']',
+  '[',
+  '~',
+  '-',
+  '_',
+  '.'
+];
+
+// Creating Array numeric characters
+var numericharacters = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+//Creating Array lowercase characters
+var lowercasecharacters = [
+  'a',
+  'b',
+  'c',
+  'd',
+  'e',
+  'f',
+  'g',
+  'h',
+  'i',
+  'j',
+  'k',
+  'l',
+  'm',
+  'n',
+  'o',
+  'p',
+  'q',
+  'r',
+  's',
+  't',
+  'u',
+  'v',
+  'w',
+  'x',
+  'y',
+  'z'
+];
+
+// Creating Array uppercase characters  
+var uppercasecharacters = [
+  'A',
+  'B',
+  'C',
+  'D',
+  'E',
+  'F',
+  'G',
+  'H',
+  'I',
+  'J',
+  'K',
+  'L',
+  'M',
+  'N',
+  'O',
+  'P',
+  'Q',
+  'R',
+  'S',
+  'T',
+  'U',
+  'V',
+  'W',
+  'X',
+  'Y',
+  'Z'
+];
+
+// Function to prompt user for password options
+function getpasswordoptions() {
+  
+  var length = parseInt(
+    prompt('How many characters would you like your password contain?')
+  );
+  // Checking if password length is a number. Prompts end if this evaluates false
+  if (isNaN(length) === true) {
+    alert('Password length must be provided as a number');
+   return;
+  }
+
+  // Checking if password length is at least 8 characters. Prompts end if  evaluates false
+  if (length < 8) {
+    alert('Password length must be at least 8 characters');
+     return;
+  }
+
+  // Checking if password length is less than 128 characters. Prompts end if  evaluates false
+  if (length > 128) {
+    alert('Password length must less than 129 characters');
+    return;
+  }
+  // Variable for special characters check
+  var getspecialcharacters = 
+  confirm('Do you want to include special characters? Click OK!!!'
+  );
+
+  // Variable for numeric characters
+  var getnumericharacters = 
+  confirm('Do you want to include numeric characters? Click OK!!!'
+  );
+
+  // Variable for lowercase characters
+  var getlowercasecharacters = 
+  confirm('Do you want to include lowercase characters? Click OK!!!'
+  );
+
+  // Variable for uppercase characters
+  var getuppercaseccharacters = 
+  confirm('Do you want to include uppercase characters? Click OK!!!'
+  );
+
+  // Checking if user does not include any types of characters.Prompts end if  evaluates false
+  if (
+    getspecialcharacters === false &&
+    getnumericharacters === false &&
+    getlowercasecharacters === false &&
+    getuppercaseccharacters === false 
+  )
+   {
+    alert('You MUST select at least one character type');
+    return;
+  }
+
+  // Creating and object to store for user's answers
+  var passwordoptions = {
+    length: length,
+    getspecialcharacters: getspecialcharacters,
+    getnumericharacters: getnumericharacters,
+    getlowercasecharacters: getlowercasecharacters,
+    getuppercaseccharacters: getuppercaseccharacters,
+  };
+
+ return passwordoptions;
+}
+
+ // Function for getting a random element from an array
+ function getrandom(arr) {
+  var randIndex = Math.floor(Math.random() * arr.length);
+  var randElement = arr[randIndex];
+
+  return randElement;
+}
+
+// Function generating password with user's answers
+function generatepassword() {
+  var options = getpasswordoptions();
+  // Variable for result
+  var result = [];
+
+  // Array for types of characters  
+  var typesofcharacters = [];
+
+  // Array for chosen character to use
+  var chosencharacters = [];
+
+ // Cheking arrays of special characters into array of possible characters according to user's answers
+  // Push new random special character to chosencharcters
+  if (options.getspecialcharacters) {
+    typesofcharacters = typesofcharacters.concat(specialcharacters);
+    chosencharacters.push(getrandom(specialcharacters));
+  }
+
+
+  // Cheking arrays of numeric characters into array of possible characters according to user's answers
+  // Push new random numeric characters to chosencharcters
+  if (options.getnumericharacters) {
+    typesofcharacters = typesofcharacters.concat(numericharacters);
+    chosencharacters.push(getrandom(numericharacters));
+  }
+
+  // Cheking arrays of lowercase characters into array of possible characters according to user's answers
+  // Push new random lowercase character to chosencharcters
+  if (options.getlowercasecharacters) {
+    typesofcharacters = typesofcharacters.concat(lowercasecharacters);
+    chosencharacters.push(getrandom(lowercasecharacters));
+  }
+
+  // Cheking arrays of uppercase characters into array of possible characters according to user's answers
+  // Push new random uppercase character to chosencharcters
+  if (options.getuppercaseccharacters) {
+    typesofcharacters = typesofcharacters.concat(uppercasecharacters);
+    chosencharacters.push(getrandom(uppercasecharacters));
+  }
+
+  // For loop, selecting random indicated characters from the array of possible characters into the result variable
+  for (var i = 0; i < options.length; i++) {
+    var typesofcharacters1 = getrandom(typesofcharacters);
+
+    result.push(typesofcharacters1);
+  }
+
+  // For loop, mixing at least one of each chosen character in the result
+  for (var i = 0; i < chosencharacters.length; i++) {
+    result[i] = chosencharacters[i];
+  }
+
+  // Transform the result into a string and pass into writePassword
+  return result.join('');
+}
+ 
+  </script>
+  </body>
+
+</html>
